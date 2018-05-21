@@ -9,3 +9,4 @@ build
 web/static/
 web/__pycache__/
 web/*.pyc
+.idea/
