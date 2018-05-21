@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    <div class="card" style="width:400px;margin-left: 100px">
+        <div class="card-header">
+            <button type="button" class="btn btn-danger">
+                涉恐视频 <span class="badge badge-light">{{num_bk}}</span>
+            </button>
+        </div>
+
+        {% if num_bk>0 %}
+        {% for video in bk_videos%}
+        <div class="card bg-light text-dark" style="width:380px">
+            <div class="row">
+                <iframe width="370" height="250" style="margin-left: 20px" src="{{video.video_embed_url}}"
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>{{video.publishedAt}}</li>
+                    <li>{{video.title}}</li>
+                </ul>
+                <a href="{{video.video_url}}" class="btn btn-primary" role="button">YouTube</a>
+                <button type="button" class="btn btn-info">{{video.uploader}}<span class="badge badge-light">auth</span></button>
+            </div>
+        </div>
+        <br>
+        {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="card" style="width:400px; margin-left:60px;margin-top: 0px">
+        <div class="card-header">
+            <button type="button" class="btn btn-danger">
+                群体事件视频 <span class="badge badge-light">{{num_pt}}</span>
+            </button>
+        </div>
+
+        {% if num_pt>0 %}
+        {% for video in pt_videos%}
+        <div class="card bg-light text-dark" style="width:380px">
+            <div class="row">
+                <iframe width="370" height="250" style="margin-left: 20px" src="{{video.video_embed_url}}"
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>{{video.publishedAt}}</li>
+                    <li>{{video.title}}</li>
+                </ul>
+                <a href="{{video.video_url}}" class="btn btn-primary" role="button">YouTube</a>
+                <button type="button" class="btn btn-info">{{video.uploader}}<span class="badge badge-light">auth</span></button>
+            </div>
+        </div>
+        <br>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

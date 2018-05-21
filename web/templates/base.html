@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"-->
+        <!--crossorigin="anonymous"></script>-->
+    <!--<script src="//cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>-->
+    <title>SocialMediaMonitor</title>
+
+</head>
+
+<body style="background-color: #f8f8ff">
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+    <!-- Links -->
+    <ul class="navbar-nav">
+        <a class="navbar-brand" href="#">SNS图像信息监控系统</a>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('yt_video_list')}}">YouTube视频</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('channels_home')}}">YouTube订阅号</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{url_for('videos_statistics')}}">统计</a>
+        </li>
+    </ul>
+
+</nav>
+
+
+
+    <div class="FullScreen" style="width: 100%">
+        {% block content %} {% endblock %}
+    </div>
+    <div class="container" style="width: 90%">
+        {% block body %} {% endblock %}
+    </div>
+
+    <!--&lt;!&ndash;页脚&ndash;&gt;-->
+    <!--<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">-->
+        <!--<div class="container-fluid">-->
+            <!--<ul class="navbar-nav">-->
+                <!--<p class="navbar-text text-center">Social Media Monitor</p>-->
+                <!--<p class="navbar-text">contact：***</p>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</nav>-->
+
+
+</body>
+
+</html>

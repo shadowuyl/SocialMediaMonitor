@@ -1,0 +1,11 @@
+*.so
+*.egg
+*.egg-info
+*.pyc
+*.ans
+data/
+dist
+build
+web/static/
+web/__pycache__/
+web/*.pyc

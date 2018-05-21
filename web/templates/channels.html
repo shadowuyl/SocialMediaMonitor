@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Thumbnail</th>
+        <th>Title</th>
+        <th>publishedAt</th>
+        <th>subscriberCount</th>
+        <th>videoCount</th>
+        <th>commentCount</th>
+        <th>viewCount</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for channel in channels %}
+    <tr>
+        <td><img src="{{url_for('static',filename=channel.thumbnails_path)}}" class="img-thumbnail" alt="Cinque Terre" height="100" width="100"></td>
+        <td><a href="{{channel.homeUrl}}">{{channel.title}}</a></td>
+        <td>{{channel.publishedAt}}</td>
+        <td>{{channel.subscriberCount}}</td>
+        <td>{{channel.videoCount}}</td>
+        <td>{{channel.commentCount}}</td>
+        <td>{{channel.viewCount}}</td>
+        <td>{{channel.description[0:200]}}...</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

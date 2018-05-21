@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+{% block content %}
+<div >
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <div style="margin-left: 40px;margin-top: 50px">
+        <div class="row">
+            <div style="height: 400px;width: 600px;">
+                <canvas id="nmTop" width="600" height="400"></canvas>
+            </div>
+            <div class="card row" style="height:340px;width:700px;margin-top: 30px">
+                <div class="row">
+                {% for video in nmvideos[0:5]%}
+                    <div class="card" style="margin-left: 20px">
+                        <iframe width="110" height="100" style="margin-left: 10px;" src="{{video.video_embed_url}}"
+                        allow="autoplay; encrypted-media"
+                        allowfullscreen></iframe>
+                    <div class="card-body" width="100" style="margin-left: 0px">
+                            <li><a href="{{video.video_url}}">{{video.title[0:6]}}.</a></li>
+                    </div>
+                    </div>
+                {% endfor %}
+                    {% for video in nmvideos[5:10]%}
+                    <div class="card" style="margin-left: 20px">
+                        <iframe width="110" height="100" style="margin-left: 10px;" src="{{video.video_embed_url}}"
+                                allow="autoplay; encrypted-media"
+                                allowfullscreen></iframe>
+                        <div class="card-body" width="100" style="margin-left: 0px">
+                            <li><a href="{{video.video_url}}">{{video.title[0:6]}}.</a></li>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div style="height: 400px;width: 600px;">
+                <canvas id="bkTop" width="600" height="400"></canvas>
+            </div>
+            <div class="card row" style="height:340px;width:700px;margin-top: 30px">
+                <div class="row">
+                    {% for video in bkvideos[0:5]%}
+                    <div class="card" style="margin-left: 20px">
+                        <iframe width="110" height="100" style="margin-left: 10px;" src="{{video.video_embed_url}}"
+                                allow="autoplay; encrypted-media"
+                                allowfullscreen></iframe>
+                        <div class="card-body" width="100" style="margin-left: 0px">
+                            <li><a href="{{video.video_url}}">{{video.title[0:6]}}.</a></li>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% for video in bkvideos[5:10]%}
+                    <div class="card" style="margin-left: 20px">
+                        <iframe width="110" height="100" style="margin-left: 10px;" src="{{video.video_embed_url}}"
+                                allow="autoplay; encrypted-media"
+                                allowfullscreen></iframe>
+                        <div class="card-body" width="100" style="margin-left: 0px">
+                            <li><a href="{{video.video_url}}">{{video.title[0:6]}}.</a></li>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div style="height: 400px;width: 600px;">
+                <canvas id="ptTop" width="600" height="400"></canvas>
+            </div>
+            <div class="card row" style="height:340px;width:700px;margin-top: 30px">
+                <div class="row">
+                    {% for video in ptvideos[0:5]%}
+                    <div class="card" style="margin-left: 20px">
+                        <iframe width="110" height="100" style="margin-left: 10px;" src="{{video.video_embed_url}}"
+                                allow="autoplay; encrypted-media"
+                                allowfullscreen></iframe>
+                        <div class="card-body" width="100" style="margin-left: 0px">
+                            <li><a href="{{video.video_url}}">{{video.title[0:6]}}.</a></li>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% for video in ptvideos[5:10]%}
+                    <div class="card" style="margin-left: 20px">
+                        <iframe width="110" height="100" style="margin-left: 10px;" src="{{video.video_embed_url}}"
+                                allow="autoplay; encrypted-media"
+                                allowfullscreen></iframe>
+                        <div class="card-body" width="100" style="margin-left: 0px">
+                            <li><a href="{{video.video_url}}">{{video.title[0:6]}}.</a></li>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--<canvas id="protestTop" width="400" height="400"></canvas>-->
+<script>
+    var ctx = document.getElementById("nmTop").getContext('2d');
+    var titles=new Array();
+    var inx=0;
+    var nmdata=new Array();
+    {% for i in nmvideos %}
+        titles[inx]="{{i.title[0:10]}}";
+        inx=inx+1;
+    {% endfor %}
+    inx=0;
+    {% for i in nmvideos %}
+        nmdata[inx]={{i.viewCount}};
+        inx=inx+1;
+    {% endfor %}
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: titles,
+            datasets: [{
+                label: '# Normal Top',
+                data: nmdata,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+
+    <script>
+    var ctx = document.getElementById("bkTop").getContext('2d');
+    var titles=new Array();
+    var inx=0;
+    var nmdata=new Array();
+    {% for i in bkvideos %}
+        titles[inx]="{{i.title[0:10]}}";
+        inx=inx+1;
+    {% endfor %}
+    inx=0;
+    {% for i in bkvideos %}
+        nmdata[inx]={{i.viewCount}};
+        inx=inx+1;
+    {% endfor %}
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: titles,
+            datasets: [{
+                label: '# Bk Top',
+                data: nmdata,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+    <script>
+    var ctx = document.getElementById("ptTop").getContext('2d');
+    var titles=new Array();
+    var inx=0;
+    var nmdata=new Array();
+    {% for i in ptvideos %}
+        titles[inx]="{{i.title[0:10]}}";
+        inx=inx+1;
+    {% endfor %}
+    inx=0;
+    {% for i in ptvideos %}
+        nmdata[inx]={{i.viewCount}};
+        inx=inx+1;
+    {% endfor %}
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: titles,
+            datasets: [{
+                label: '# Protest Top',
+                data: nmdata,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255,99,132,1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+</script>
+</div>
+{% endblock %}
