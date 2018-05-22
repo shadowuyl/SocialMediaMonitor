@@ -3,7 +3,7 @@
 from flask import render_template,request,url_for,redirect,session,flash,g
 from PIL import Image
 from web.models import *
-import os,json
+import os,json,datetime
 from sqlalchemy import or_,and_
 from web import app
 from sqlalchemy import and_,or_,desc,asc
@@ -48,6 +48,94 @@ def videos_statistics():
     bkvideos=Videos.query.filter_by(tvlogo=1).order_by(desc(Videos.viewCount)).limit(10).all()
     ptvideos=Videos.query.filter_by(protest=1).order_by(desc(Videos.viewCount)).limit(10).all()
     return render_template('topStatistic.html',nmvideos=nmvideos,bkvideos=bkvideos,ptvideos=ptvideos)
+
+
+def getDateRecent(end_date):
+    datelist = []
+    flag = 0
+    month = int(end_date.month) - 6
+    if month < 0:
+        month = 12 + month
+        flag = -1
+    from_date = datetime.datetime(year=end_date.year + flag, month=month, day=1)
+    flag = 0
+    for i in range(8):
+        newdate = None
+        if i + from_date.month <= 12:
+            newdate = datetime.datetime(year=from_date.year + flag, month=i + from_date.month, day=1)
+        elif i + from_date.month > 12:
+            flag = 1
+            newdate = datetime.datetime(year=from_date.year + flag, month=(i + from_date.month) % 12, day=1)
+        if newdate <= end_date:
+            datelist.append(newdate)
+    datelist = datelist[-6:]
+    return datelist
+
+def getRecent(end_date):
+    datelist=getDateRecent(end_date)
+    nm_list=[]
+    bk_list=[]
+    pt_list=[]
+    for inx,date in enumerate(datelist):
+        if inx != len(datelist)-1:
+            nm_list.append(len(Videos.query.filter(Videos.publishedAt >=date,Videos.publishedAt<datelist[inx+1],Videos.protest==0,Videos.tvlogo==0).all()))
+            bk_list.append(len(Videos.query.filter(Videos.publishedAt >=date,Videos.publishedAt<datelist[inx+1],Videos.tvlogo==1).all()))
+            pt_list.append(len(Videos.query.filter(Videos.publishedAt >=date,Videos.publishedAt<datelist[inx+1],Videos.protest==1).all()))
+        else:
+            nm_list.append(len(Videos.query.filter(Videos.publishedAt >=date,Videos.protest==0,Videos.tvlogo==0).all()))
+            bk_list.append(len(Videos.query.filter(Videos.publishedAt >=date,Videos.tvlogo==1).all()))
+            pt_list.append(len(Videos.query.filter(Videos.publishedAt >=date,Videos.protest==1).all()))
+    return datelist,nm_list,bk_list,pt_list
+
+def getOneRecent(end_date,channelId):
+    datelist = getDateRecent(end_date)
+    nm_list = []
+    bk_list = []
+    pt_list = []
+    for inx, date in enumerate(datelist):
+        if inx != len(datelist) - 1:
+            nm_list.append(len(Videos.query.filter(Videos.publishedAt >= date, Videos.publishedAt < datelist[inx + 1],
+                                                   Videos.protest == 0, Videos.tvlogo == 0,Videos.channel_id==channelId).all()))
+            bk_list.append(len(Videos.query.filter(Videos.publishedAt >= date, Videos.publishedAt < datelist[inx + 1],
+                                                   Videos.tvlogo == 1,Videos.channel_id==channelId).all()))
+            pt_list.append(len(Videos.query.filter(Videos.publishedAt >= date, Videos.publishedAt < datelist[inx + 1],
+                                                   Videos.protest == 1,Videos.channel_id==channelId).all()))
+        else:
+            nm_list.append(
+                len(Videos.query.filter(Videos.publishedAt >= date, Videos.protest == 0, Videos.tvlogo == 0).all()))
+            bk_list.append(len(Videos.query.filter(Videos.publishedAt >= date, Videos.tvlogo == 1,Videos.channel_id==channelId).all()))
+            pt_list.append(len(Videos.query.filter(Videos.publishedAt >= date, Videos.protest == 1,Videos.channel_id==channelId).all()))
+    return datelist, nm_list, bk_list, pt_list
+
+
+@app.route('/channelsStisticsRecent',methods=['GET', 'POST'])
+def channelsStisticsRecent():
+    if request.method == 'POST':
+        channel_name = request.form['channel_name'].strip()
+        channel=Channels.query.filter(Channels.title==channel_name).first()
+        if channel is not None:
+            end_date=datetime.datetime.today()
+            datelist, nm_list, bk_list, pt_list = getRecent(end_date)
+            # print(datelist,nm_list,bk_list,pt_list)
+            # Months=["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+            month=[]
+            for i in datelist:
+                month.append(i.month-1)
+
+            # print(getOneRecent(end_date,'UC16niRr50-MSBwiO3YDb3RA'))
+            _, nm1, bk1, pt1=getOneRecent(end_date,channel.channel_id)
+            return render_template('recentStistics.html',nm_list=nm_list,bk_list=bk_list,pt_list=pt_list,month=month,
+                                   nm1=nm1, bk1=bk1, pt1=pt1)
+        else:
+            return 'channel name not find...'
+    else:
+        end_date = datetime.datetime.today()
+        datelist, nm_list, bk_list, pt_list = getRecent(end_date)
+        month = []
+        for i in datelist:
+            month.append(i.month - 1)
+        return render_template('recentStistics.html', nm_list=nm_list, bk_list=bk_list, pt_list=pt_list, month=month,
+                               nm1=None,bk1=None,pt1=None)
 
 
 

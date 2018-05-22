@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="margin-bottom: 50px" >
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+    <div style="margin-left: 150px;margin-top: 50px">
+        <div class="row">
+            <div >
+                <canvas id="allstat" style="height:400px;width:1050px"></canvas>
+            </div>
+        </div>
+    </div>
+    <div style="margin-left: 150px;margin-top: 50px">
+            <form class="form-inline" method="POST" action="{{url_for('channelsStisticsRecent')}}">
+                <label for="channel_name">channel title: </label>
+                <input type="text" class="form-control" id="channel_name" name="channel_name">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        <div class="row">
+            <div >
+                <canvas id="onestat" style="height:400px;width:1050px"></canvas>
+            </div>
+        </div>
+    </div>
+
+<script>
+
+    var ctx = document.getElementById("allstat").getContext('2d');
+    var monthid={{month}};
+    var month=new Array();
+    var MonthsDict= new Array("一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月");
+    var inx=0;
+    for (x in monthid){
+        month[inx]=MonthsDict[monthid[inx]];
+        inx=inx+1;
+    }
+    var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: month,
+        datasets: [{
+            label: '#normal',
+            data: {{nm_list}},
+            backgroundColor:'rgba(0, 153, 204,0.2)',
+            borderColor: 'rgba(0, 153, 204,1)',
+            borderWidth: 1
+        },{label: '#black',
+            data: {{bk_list}},
+            backgroundColor:['rgba(255, 51, 51,0.2)'],
+            borderColor: [
+                'rgba(255, 51, 51,1)'
+            ],
+            borderWidth: 1
+        },{label: '#protest',
+            data: {{pt_list}},
+            backgroundColor: 'rgba(255, 255, 0,0.2)',
+            borderColor: 'rgba(255, 255, 0,1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+    });
+</script>
+    {% if nm1 %}
+    <script>
+        var ctx2 = document.getElementById("onestat").getContext('2d');
+        var monthid={{month}};
+        var month=new Array();
+        var MonthsDict= new Array("一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月");
+        var inx=0;
+        for (x in monthid){
+            month[inx]=MonthsDict[monthid[inx]];
+            inx=inx+1;
+        }
+        var myChart2 = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: month,
+                datasets: [{
+                    label: '#normal',
+                    data: {{nm1}},
+            backgroundColor: [
+                'rgba(0, 153, 204,0.2)'
+            ],
+            borderColor: 'rgba(0, 153, 204,1)',
+            borderWidth: 1
+        },{label: '#black',
+            data: {{bk1}},
+        backgroundColor:['rgba(255, 51, 51,0.2)'],
+            borderColor: [
+            'rgba(255, 51, 51,1)'
+        ],
+            borderWidth: 1
+        },{label: '#protest',
+            data: {{pt1}},
+            backgroundColor: 'rgba(255, 255, 0,0.2)',
+                borderColor: 'rgba(255, 255, 0,1)',
+                borderWidth: 1
+        }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+        });
+
+    </script>
+{% endif %}
+
+</div>
+{% endblock %}
