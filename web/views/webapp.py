@@ -140,6 +140,21 @@ def channelsStisticsRecent():
 
 
 
+@app.route('/demo_show')
+def demoShow():
+    bkv_path,ptv_path='bk.mp4','pt.mp4'
+    bkdata_path,ptdata_path='data_2sper.txt','data_2sper.txt'
+    bkdata,ptdata=None,None
+    with open(bkdata_path,'r') as f:
+            bkdata=eval(f.readline())
+    # with open(ptdata_path,'r') as f:
+    #     datas=f.readline().split(',')
+    #     for i in datas:
+    #         if len(i.strip(' '))>0:
+    #             ptdata.append(i)
+    return render_template('demo2.html',bkdata=bkdata,ptdata=ptdata,bkv_path=bkv_path,
+                           ptv_path=ptv_path,labelx=[(x+1)*2 for x in range(len(bkdata))])
+
 
 
 @app.route('/demo', methods=['GET', 'POST'])
