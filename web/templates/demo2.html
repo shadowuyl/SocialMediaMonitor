@@ -16,15 +16,31 @@
         </div>
     </div>
 
+    <div class="row" style="margin-top: 50px">
+    <div style="margin-left: 150px">
+        <video width="400" height="300" controls>
+          <source src="{{url_for('static',filename=ptv_path)}}" type="video/mp4">
+          您的浏览器不支持 HTML5 video 标签。
+        </video>
+    </div>
+    <div style="margin-left: 50px">
+        <!--<div class="row">-->
+            <div >
+                <canvas id="fra_pt" style="height:400px;width:650px"></canvas>
+            </div>
+        <!--</div>-->
+    </div>
+        </div>
+
 
 <script>
     var ctx = document.getElementById("fra_bk").getContext('2d');
     var myChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: {{labelx}},
+        labels: {{labelx_bk}},
         datasets: [{
-            label: '#normal',
+            label: '#black',
             data: {{bkdata}},
             backgroundColor:'rgba(0, 153, 204,0.2)',
             borderColor: 'rgba(0, 153, 204,1)',
@@ -43,6 +59,30 @@
     });
 </script>
 
-
+<script>
+    var ctx2 = document.getElementById("fra_pt").getContext('2d');
+    var myChart2 = new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: {{labelx_pt}},
+        datasets: [{
+            label: '#protest',
+            data: {{ptdata}},
+            backgroundColor:'rgba(0, 153, 204,0.2)',
+            borderColor: 'rgba(0, 153, 204,1)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+    });
+</script>
 </div>
 {% endblock %}

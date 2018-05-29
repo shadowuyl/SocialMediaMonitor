@@ -213,5 +213,5 @@ def updateVideoInfo():
 if __name__ == '__main__':
     #solve_singleVideos()
     # getActivities('UC4GQAbqmzNTQEY_UnyBkxug')
-    #solve_channelVideos()
-    updateVideoInfo()
+    solve_channelVideos()
+    #updateVideoInfo()
